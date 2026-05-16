@@ -1,0 +1,38 @@
+def removeitem():
+    with open("product_inventory.json", 'r') as file:
+        data = json.load(file)
+
+    selected_item = remove_entry.get()
+
+    # Check if the selected item exists in the data
+    if selected_item in data[0]:
+        del data[0][selected_item]  # Remove the selected item from the dictionary
+
+        # Save the updated data to the file
+        with open('product_inventory.json', 'w') as file:
+            json.dump(data, file, indent=4)
+        
+        inventory_window.destroy()
+        remove_item.destroy()
+        view_inventory()
+
+
+    else:
+        print(f"Item '{selected_item}' not found in the inventory.")
+
+
+
+def remove_item():
+    global remove_entry, remove_item
+    remove_item = tk.Toplevel(root)
+    remove_item.geometry("299x299")
+
+    remove_entry = tk.Entry(remove_item)
+    remove_entry.pack()
+
+    removebutton = tk.Button(remove_item, text="Remove Item", command=removeitem)
+    removebutton.pack()
+
+
+removeItem = tk.Button(inventorybutframe, text="Remove Item", command=remove_item)
+    removeItem.grid(row=0, column=0)
